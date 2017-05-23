@@ -33,6 +33,12 @@ Apply the changes:
 terraform apply
 ```
 
+Show the IP address of the forwarding rule:
+
+```
+terraform output -module mig
+```
+
 ## Scaling the Instance Group
 
 Edit the `terraform.tf` file and change the value of `mig_size` then run `terraform plan` and `terraform apply` to scale the group.

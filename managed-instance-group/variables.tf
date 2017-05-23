@@ -35,5 +35,9 @@ variable compute_image {
 
 variable service_port {
   description = "TCP port your service is listening on."
-  default = "8080"
+  default = "80"
+}
+
+output "external_ip" {
+  value = "${google_compute_forwarding_rule.compute.ip_address}"
 }

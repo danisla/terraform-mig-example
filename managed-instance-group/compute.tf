@@ -1,9 +1,15 @@
 
-resource "google_compute_health_check" "compute" {
+# resource "google_compute_health_check" "compute" {
+#   name = "${var.mig_name}-compute-hc"
+#   tcp_health_check {
+#     port = "${var.service_port}"
+#   }
+# }
+
+resource "google_compute_http_health_check" "compute" {
   name = "${var.mig_name}-compute-hc"
-  tcp_health_check {
-    port = "${var.service_port}"
-  }
+  request_path = "/"
+  port = "${var.service_port}"
 }
 
 resource "google_compute_instance_template" "compute" {
@@ -43,7 +49,7 @@ resource "google_compute_instance_template" "compute" {
   }
 
   metadata {
-    # startup-script = "${file("${path.module}/scripts/compute.sh")}"
+    startup-script = "${file("${path.module}/scripts/compute.sh")}"
   }
 
   lifecycle {
@@ -74,4 +80,8 @@ resource "google_compute_instance_group_manager" "compute" {
 
 resource "google_compute_target_pool" "compute" {
   name = "${var.mig_name}-target-pool"
+  session_affinity = "NONE"
+  health_checks = [
+    "${google_compute_http_health_check.compute.name}",
+  ]
 }

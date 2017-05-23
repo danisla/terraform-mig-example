@@ -27,5 +27,6 @@ resource "google_compute_firewall" "compute-service" {
 resource "google_compute_forwarding_rule" "compute" {
   name       = "${var.mig_name}-compute-instance-group"
   target     = "${google_compute_target_pool.compute.self_link}"
-  port_range = "${var.service_port}"
+  load_balancing_scheme = "EXTERNAL"
+  port_range = "1-65535"
 }
