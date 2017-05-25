@@ -1,11 +1,4 @@
 
-# resource "google_compute_health_check" "compute" {
-#   name = "${var.mig_name}-compute-hc"
-#   tcp_health_check {
-#     port = "${var.service_port}"
-#   }
-# }
-
 resource "google_compute_http_health_check" "compute" {
   name = "${var.mig_name}-compute-hc"
   request_path = "/"
